@@ -34,7 +34,20 @@ Consider the following credit card fraud detection algorithm:
     ```./gradlew clean build```
     
     (Optional) Please run `chmod +x gradlew` if getting error ./gradlew: Permission denied
-    
+
+## Publish
+
+`./gradlew upload`
+
+## Release
+
+```
+./gradlew release \
+    -Prelease.useAutomaticVersion=true \
+    -Prelease.releaseVersion=1.0.0  \
+    -Prelease.newVersion=1.1.0-SNAPSHOT
+```
+
 ## Quality Analysis
 
 |Name|Report|

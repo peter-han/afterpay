@@ -10,7 +10,6 @@ plugins {
 }
 
 group 'com.phan.codingexercise'
-version '1.0-SNAPSHOT'
 def artifactId = "afterpay-artifact"
 
 sourceCompatibility = 1.8
@@ -85,8 +84,18 @@ uploadArchives {
             snapshotRepository(url: 'http://localhost:8081/nexus/content/repositories/snapshots') {
                 authentication(userName: 'admin', password: 'admin123')
             }
-            def buildNumber = System.getenv("BUILD_NUMBER") ?: "56"
-            pom.version = "$project.version" + ".$buildNumber"
+
+            def getGitHash = { ->
+                def stdout = new ByteArrayOutputStream()
+                exec {
+                    commandLine 'git', 'rev-parse', '--short', 'HEAD'
+                    standardOutput = stdout
+                }
+                return stdout.toString().trim()
+            }
+
+            def buildNumber = System.getenv("BUILD_NUMBER") ?: "0"
+            pom.version = "$project.version" + ".$getGitHash" + ".$buildNumber"
             pom.artifactId = "$artifactId"
             pom.groupId = "$project.group"
         }
